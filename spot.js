@@ -1,5 +1,6 @@
 import request from "superagent";
 import nconf from "nconf";
+import db from "./model";
 
 nconf.file("./config.json");
 
@@ -23,10 +24,31 @@ function fetchSpotData(config, callback) {
   });
 }
 
-fetchSpotData({}, function(err, messages) {
+fetchSpotData({}, (err, messages) => {
   if(err) {
     console.log(err);
     return;
   }
-  console.log(messages);
+
+  messages.forEach(message => {
+    db.message.create({
+      id: message.id,
+      messengerId: message.messengerId,
+      messengerName: message.messengerName,
+      unixTime: message.unixTime,
+      messageType: message.messageType,
+      latitude: message.latitude,
+      longitude: message.longitude,
+      modelId: message.modelId,
+      showCustomMsg: message.showCustomMsg,
+      dateTime: message.dateTime,
+      batteryState: message.batteryState,
+      hidden: message.hidden,
+    }, (err, result) => {
+      if(err) {
+        console.log(err);
+        return;
+      }
+    });
+  });
 });
