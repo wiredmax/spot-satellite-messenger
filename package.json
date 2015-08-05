@@ -1,0 +1,25 @@
+{
+  "name": "spot-satellite-messenger",
+  "version": "1.0.0",
+  "description": "Better access and archival of spot messenger data.",
+  "main": "app.js",
+  "dependencies": {
+    "babel-core": "^5.8.20",
+    "nconf": "^0.7.2",
+    "superagent": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wiredmax/spot-satellite-messenger.git"
+  },
+  "author": "Maxime Poulin <mpoulin@roux.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wiredmax/spot-satellite-messenger/issues"
+  },
+  "homepage": "https://github.com/wiredmax/spot-satellite-messenger"
+}
