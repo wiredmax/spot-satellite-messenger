@@ -3,11 +3,8 @@ import uuid from "node-uuid";
 mongoose.connect("mongodb://localhost/spot");
 
 var Message = mongoose.model("Message", {
-  id: {
-    type: String,
-    default: uuid.v4(),
-  },
-  spotId: String,
+  _id: String,
+  spotId: Number,
   messengerId: String,
   messengerName: String,
   unixTime: Number,
@@ -23,7 +20,8 @@ var Message = mongoose.model("Message", {
 
 const create = (spotData, callback) => {
   let message = new Message({
-    spotId: spotData.id,
+    _id: uuid.v4(),
+    spotId: spotData.spotId,
     messengerId: spotData.messengerId,
     messengerName: spotData.messengerName,
     unixTime: spotData.unixTime,
@@ -45,6 +43,45 @@ const create = (spotData, callback) => {
   });
 };
 
+const info = (params, callback) => {
+  let message = mongoose.model("Message", Message);
+  let query = {};
+  if(params.id) {
+    query = {_id: params.id};
+  }
+  if(params.spotId) {
+    query = {spotId: params.spotId};
+  }
+  message.findOne(query, (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    if(!result) {
+      callback(null, null);
+      return;
+    }
+
+    callback(null, {
+      id: result._id,
+      spotId: result.spotId,
+      messengerId: result.messengerId,
+      messengerName: result.messengerName,
+      unixTime: result.unixTime,
+      messageType: result.messageType,
+      latitude: result.latitude,
+      longitude: result.longitude,
+      modelId: result.modelId,
+      showCustomMsg: result.showCustomMsg,
+      dateTime: result.dateTime,
+      batteryState: result.batteryState,
+      hidden: result.hidden,
+    });
+  });
+};
+
 module.exports = {
   create: create,
+  info: info,
 }
