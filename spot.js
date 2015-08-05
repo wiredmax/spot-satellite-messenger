@@ -32,7 +32,7 @@ fetchSpotData({}, (err, messages) => {
 
   messages.forEach(message => {
     db.message.create({
-      id: message.id,
+      spotId: message.id,
       messengerId: message.messengerId,
       messengerName: message.messengerName,
       unixTime: message.unixTime,

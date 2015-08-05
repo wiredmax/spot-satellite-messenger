@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
+import uuid from "node-uuid";
 mongoose.connect("mongodb://localhost/spot");
 
 var Message = mongoose.model("Message", {
-  id: String,
+  id: {
+    type: String,
+    default: uuid.v4(),
+  },
+  spotId: String,
   messengerId: String,
   messengerName: String,
   unixTime: Number,
@@ -18,7 +23,7 @@ var Message = mongoose.model("Message", {
 
 const create = (spotData, callback) => {
   let message = new Message({
-    id: spotData.id,
+    spotId: spotData.id,
     messengerId: spotData.messengerId,
     messengerName: spotData.messengerName,
     unixTime: spotData.unixTime,
