@@ -81,7 +81,38 @@ const info = (params, callback) => {
   });
 };
 
+const list = (params, callback) => {
+  let message = mongoose.model("Message", Message);
+
+  message.find({}, (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    var currentResult = result.map((msg) => {
+      return {
+        id: msg._id,
+        spotId: msg.spotId,
+        messengerId: msg.messengerId,
+        messengerName: msg.messengerName,
+        unixTime: msg.unixTime,
+        messageType: msg.messageType,
+        latitude: msg.latitude,
+        longitude: msg.longitude,
+        modelId: msg.modelId,
+        showCustomMsg: msg.showCustomMsg,
+        dateTime: msg.dateTime,
+        batteryState: msg.batteryState,
+        hidden: msg.hidden,
+      }
+    });
+    callback(null, currentResult);
+  });
+};
+
 module.exports = {
   create: create,
   info: info,
+  list: list,
 }

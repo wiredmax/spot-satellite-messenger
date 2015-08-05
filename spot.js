@@ -1,6 +1,8 @@
 import request from "superagent";
 import async from "async";
 import nconf from "nconf";
+import express from "express";
+import morgan from "morgan";
 import db from "./model";
 import {argv} from "yargs";
 
@@ -81,3 +83,23 @@ setInterval(function() {
     });
   });
 }, 2.5 * 60 * 1000);
+
+const app = express();
+app.use(morgan("dev"));
+
+app.get("/api/messages.json", (req, res) => {
+  db.message.list({}, (err, result) => {
+    if(err) {
+      res.send({Error: err});
+      return;
+    }
+    res.send(result);
+  });
+});
+
+var server = app.listen(3000, () => {
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log(`Example app listening at http://${host}:${port}`);
+});
