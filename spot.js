@@ -87,13 +87,17 @@ setInterval(function() {
 const app = express();
 app.use(morgan("dev"));
 
+app.get("/", (req, res) => {
+  res.send("Spot messenger map.")
+});
+
 app.get("/api/messages.json", (req, res) => {
   db.message.list({}, (err, result) => {
     if(err) {
-      res.send({Error: err});
+      res.json({Error: err});
       return;
     }
-    res.send(result);
+    res.json(result);
   });
 });
 
