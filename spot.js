@@ -7,19 +7,26 @@ const feedId = nconf.get("spot").feedId;
 
 const spotUrl = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/" + feedId + "/message.json"
 
-request
-.get(spotUrl)
-.end((err, res) => {
+// Fetch data from spot.
+function fetchSpotData(config, callback) {
+  request
+  .get(spotUrl)
+  .end((err, res) => {
+    if(err) {
+      callback(err);
+    }
+    const spot = JSON.parse(res.text);
+    if(spot.response && spot.response.feedMessageResponse) {
+      let messages = spot.response.feedMessageResponse.messages.message;
+      callback(null, messages);
+    }
+  });
+}
+
+fetchSpotData({}, function(err, messages) {
   if(err) {
     console.log(err);
+    return;
   }
-  const spot = JSON.parse(res.text);
-  if(spot.response && spot.response.feedMessageResponse) {
-    let messages = spot.response.feedMessageResponse.messages.message;
-    if(messages.length) {
-      console.log(messages);
-    } else {
-      console.log("No spot messages");
-    }
-  }
+  console.log(messages);
 });
