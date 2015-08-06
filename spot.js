@@ -1,3 +1,4 @@
+import path from "path";
 import request from "superagent";
 import async from "async";
 import nconf from "nconf";
@@ -5,6 +6,11 @@ import express from "express";
 import morgan from "morgan";
 import db from "./model";
 import {argv} from "yargs";
+
+import React from "react";
+import Router from "react-router";
+
+import routes from "./routes";
 
 nconf.file("./config.json");
 
@@ -87,10 +93,6 @@ setInterval(function() {
 const app = express();
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.send("Spot messenger map.")
-});
-
 app.get("/api/messages.json", (req, res) => {
   db.message.list({}, (err, result) => {
     if(err) {
@@ -98,6 +100,12 @@ app.get("/api/messages.json", (req, res) => {
       return;
     }
     res.json(result);
+  });
+});
+
+app.use((req, res) => {
+  Router.run(routes, req.path, (Root, state) => {
+    res.send("<!DOCTYPE html>" + React.renderToString( <Root/> ));
   });
 });
 
