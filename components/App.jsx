@@ -1,7 +1,7 @@
-var React = require("react");
-var {Link, RouteHandler} = require("react-router");
+import React from "react";
+import {Link, RouteHandler} from "react-router";
 
-var App = React.createClass({
+const App = React.createClass({
   render: function() {
     return (
       <div>

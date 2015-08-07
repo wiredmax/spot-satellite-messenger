@@ -1,8 +1,8 @@
-var React = require("react");
-var Router = require("react-router");
-var {DefaultRoute, Route, Routes} = Router;
+import React from "react";
+import Router from "react-router";
+const {DefaultRoute, Route, Routes} = Router;
 
-var routes = require('../routes')
+const routes = require("./routes.jsx");
 
 Router.run(routes, Router.HistoryLocation, function(Handler) {
   React.render(<Handler/>, document.body);

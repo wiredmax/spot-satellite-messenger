@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import uuid from "node-uuid";
 mongoose.connect("mongodb://localhost/spot");
 
-var Message = mongoose.model("Message", {
+const Message = mongoose.model("Message", {
   _id: String,
   spotId: Number,
   messengerId: String,
