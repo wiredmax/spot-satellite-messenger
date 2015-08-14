@@ -4,7 +4,7 @@
   "description": "Better access and archival of spot messenger data.",
   "main": "app.js",
   "peerDependencies": {
-    "react": "^0.13.3",
+    "react": "^0.13.3"
   },
   "dependencies": {
     "async": "^1.4.0",
